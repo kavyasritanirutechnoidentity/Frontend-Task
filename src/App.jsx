@@ -15,7 +15,8 @@ const App = () => {
     return '';
   };
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +32,9 @@ const App = () => {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error();
+      
       toast.success(`Logged in as: ${form.email}`);
+      setForm({ email: '', password: '' }); // Clear the form inputs
     } catch {
       setError('Login failed. Please try again.');
     } finally {
