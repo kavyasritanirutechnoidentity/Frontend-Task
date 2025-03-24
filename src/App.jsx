@@ -2,27 +2,22 @@ import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-
 const App = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
   const validate = (pwd) => {
     if (pwd.length < 6 || pwd.length > 18) return 'Password must be 6–18 characters.';
     if (!/[0-9]/.test(pwd)) return 'Password must include at least one number.';
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) return 'Password must include one special character.';
     return '';
   };
-
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationError = validate(form.password);
     if (validationError) return setError(validationError);
-
     setError('');
     setLoading(true);
     try {
@@ -32,7 +27,6 @@ const App = () => {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error();
-      
       toast.success(`Logged in as: ${form.email}`);
       setForm({ email: '', password: '' }); // Clear the form inputs
     } catch {
@@ -41,7 +35,6 @@ const App = () => {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-black p-4">
       <form
@@ -56,9 +49,7 @@ const App = () => {
           />
           <h2 className="text-2xl font-bold text-gray-800">Login Page</h2>
         </div>
-
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-
         <input
           type="email"
           name="email"
@@ -68,7 +59,6 @@ const App = () => {
           required
           className="w-full border p-2 rounded focus:ring-2 focus:ring-blue-400"
         />
-
         <input
           type="password"
           name="password"
@@ -78,7 +68,6 @@ const App = () => {
           required
           className="w-full border p-2 rounded focus:ring-2 focus:ring-blue-400"
         />
-
         <button
           type="submit"
           disabled={loading}
@@ -88,11 +77,9 @@ const App = () => {
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>
-
         <ToastContainer position="top-center" autoClose={2000} hideProgressBar />
       </form>
     </div>
   );
 };
-
 export default App;
